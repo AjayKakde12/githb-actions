@@ -1,0 +1,38 @@
+# Worflow name
+name: multi-job-workflow
+
+# Event on which this workflow should be triggered push, pull_request
+on: [push]
+
+jobs:
+  job1:
+    name: Ubuntu Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step One
+      - uses: actions/checkout@v4
+      - name: Step Two
+      - run: env | sort
+  job2:
+    name: Windows Job
+    runs-on: windows-latest
+    steps:
+      - name: Step One
+        uses: actions/checkout@v4
+      - name: Step Two
+        run: "Get-ChildItem Env: | Sort-Object Name"
+  job3:
+    name: MacOs Job
+    runs-on: macos-latest
+    steps:
+      - name: Step One
+      - uses: actions/checkout@v4
+      - name: Step Two
+      - run: env | sort
+  job4:
+    needs: [job1, job2, job3]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Final Job
+        run: pwd
+
